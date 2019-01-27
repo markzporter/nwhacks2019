@@ -3,17 +3,11 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('We made it\n');
-});
-
 const languagetool = require('languagetool-api');
 
 const params = {
   language: 'en-GB',
-  text: 'Hello, how is it going',
+  text: 'She are you doing',
 };
 
 languagetool.check(params, function(err, res) {
@@ -21,6 +15,7 @@ languagetool.check(params, function(err, res) {
     console.log(err);
     console.log('HERE 1');
   } else {
+    console.log(res);
     languagetool.bestSuggestion(res, function(arr) {
       console.log(arr);
       arr.forEach(function(item) {
@@ -29,6 +24,12 @@ languagetool.check(params, function(err, res) {
       });
     });
   };
+});
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('We made it\n');
 });
 
 // languagetool.check(params, function(err, res) {
@@ -49,5 +50,3 @@ languagetool.check(params, function(err, res) {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-
